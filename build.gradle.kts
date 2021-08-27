@@ -47,8 +47,14 @@ kotlin {
                 }
             }
         }
+        val publicationsFromMainHost =
+            listOf(jvm()).map { it.name } + "kotlinMultiplatform"
         publications {
+            matching { it.name in publicationsFromMainHost }.all {
+                tasks.withType<AbstractPublishToMaven>().matching { it.publication == this@all }.configureEach { onlyIf { findProperty("isMainHost") == true } }
+            }
             register<MavenPublication>("gpr") {
+
                 from(components["kotlin"])
             }
 
