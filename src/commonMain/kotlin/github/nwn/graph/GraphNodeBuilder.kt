@@ -3,6 +3,7 @@ package github.nwn.graph
 /**
  * Builder for producing nodes in [Graph]
  */
+@GraphDSL
 class GraphNodeBuilder<State, Input> internal constructor(){
     private var enter: (GraphNode<State, Input>.(State) -> Unit)? = null
     private var step: (GraphNode<State, Input>.(State, Input) -> NodeReference)? = null

@@ -5,6 +5,7 @@ import kotlin.math.max
 /**
  * Builder for producing [Graph].
  */
+@GraphDSL
 class GraphBuilder<State, Input> internal constructor() {
     private val nodes = HashMap<NodeReference, GraphNode<State, Input>>()
 

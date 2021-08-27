@@ -45,6 +45,7 @@ class Graph<State, Input> internal constructor(
      * @param condition An external condition. The graph will run until it reaches a terminal node or this parameter returns false against the state.
      * @return the [state] parameter after being processed.
      */
+
     fun processUntil(input: Input, state: State, condition: (State) -> Boolean): State {
         var graphState: GraphState<State> = initGraphState(state)
         while (!nodes[graphState.current].shouldTerminate && condition(graphState.state)) {
@@ -59,5 +60,3 @@ class Graph<State, Input> internal constructor(
  */
 fun <State, Input> graph(op: GraphBuilder<State, Input>.() -> Unit) =
     GraphBuilder<State, Input>().apply(op).build()
-
-
