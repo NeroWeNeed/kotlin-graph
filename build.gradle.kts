@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "github.nwn"
-version = "0.1"
+version = "0.1.1"
 
 repositories {
     mavenCentral()
@@ -49,6 +49,9 @@ kotlin {
         }
         publications {
             register<MavenPublication>("gpr") {
+                groupId = group.toString()
+                version = "0.1"
+
                 from(components["kotlin"])
             }
 
