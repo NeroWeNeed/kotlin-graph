@@ -1,11 +1,11 @@
 plugins {
-    kotlin("multiplatform") version "1.5.30"
+    kotlin("multiplatform") version "1.5.21"
     id("maven-publish")
 
 }
 
 group = "github.nwn"
-version = "0.1-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
