@@ -1,9 +1,10 @@
 plugins {
     kotlin("multiplatform") version "1.5.30"
     id("maven-publish")
+
 }
 
-group = "org.example"
+group = "github.nwn"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -29,6 +30,28 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
+        }
+        val jvmMain by getting {
+
+        }
+    }
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/${properties["githubUsername"]}/kotlin-graph")
+                credentials {
+                    println(project.findProperty("githubUsername"))
+                    username = project.findProperty("githubUsername").toString()
+                    password = project.findProperty("githubToken").toString()
+                }
+            }
+        }
+        publications {
+            register<MavenPublication>("gpr") {
+                from(components["kotlin"])
+            }
+
         }
     }
 }

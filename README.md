@@ -1,2 +1,5 @@
-# kotlin-graph
-Simple DSL for creating state machines
+# Kotlin Graph
+Simple Kotlin DSL for creating state machines
+
+# Usage
+Kotlin 
