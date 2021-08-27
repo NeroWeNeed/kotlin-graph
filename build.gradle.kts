@@ -41,7 +41,7 @@ kotlin {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/${properties["githubUsername"]}/kotlin-graph")
                 credentials {
-                    println(project.findProperty("githubUsername"))
+
                     username = project.findProperty("githubUsername").toString()
                     password = project.findProperty("githubToken").toString()
                 }
