@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "github.nwn"
-version = "1.0-SNAPSHOT"
+version = "0.1"
 
 repositories {
     mavenCentral()

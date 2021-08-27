@@ -2,7 +2,7 @@ package github.nwn.graph
 
 /**
  * Represents a State Machine. This class should not be instantiated directly, and instead should be created with the [graph] function.
- * @see github.nwn.graph.GraphKt.graph
+ * @see graph
  */
 class Graph<State, Input> internal constructor(
     internal val nodes: List<GraphNode<State, Input>>,
