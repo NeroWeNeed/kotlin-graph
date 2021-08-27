@@ -1,6 +1,6 @@
 package github.nwn.graph
 
-data class GraphNode<State, Input>(
+data class GraphNode<State, Input> internal constructor(
     val id: NodeReference,
     private val enter: (GraphNode<State, Input>.(State) -> Unit)?,
     private val step: GraphNode<State, Input>.(State, Input) -> NodeReference,

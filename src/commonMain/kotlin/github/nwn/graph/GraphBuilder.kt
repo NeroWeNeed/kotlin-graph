@@ -2,26 +2,31 @@ package github.nwn.graph
 
 import kotlin.math.max
 
-class GraphBuilder<State, Input> {
+/**
+ * Builder for producing [Graph].
+ */
+class GraphBuilder<State, Input> internal constructor() {
     private val nodes = HashMap<NodeReference, GraphNode<State, Input>>()
 
     private var index = 0
-    fun node(id: NodeReference, op: GraphNodeBuilder<State, Input>.() -> Unit): Int {
-        val node = GraphNodeBuilder<State, Input>().apply(op)
 
-        nodes[id] = node.build(id)
-        return id.index
-    }
-
-    fun nodeReference() = NodeReference(index++)
-    fun node(op: GraphNodeBuilder<State, Input>.() -> Unit): NodeReference {
+    /**
+     * Creates a new node for [Graph].
+     * @param id The [NodeReference] to use to identify the node. If not provided creates a new one and appends it. These should be unique.
+     * @return The [id] of the node. If an id was provided, simply returns the provided id.
+     */
+    fun node(id: NodeReference = nodeReference(), op: GraphNodeBuilder<State, Input>.() -> Unit): NodeReference {
         val node = GraphNodeBuilder<State, Input>().apply(op)
-        val id = nodeReference()
         nodes[id] = node.build(id)
         return id
     }
 
-    fun build(): Graph<State, Input> {
+    /**
+     * Creates a new [NodeReference].
+     */
+    fun nodeReference() = NodeReference(index++)
+
+    internal fun build(): Graph<State, Input> {
         val nodes = nodes.entries.sortedBy { it.key }.map { it.value }
         return Graph(nodes, max(nodes.indexOfFirst { it.initial }, 0))
     }

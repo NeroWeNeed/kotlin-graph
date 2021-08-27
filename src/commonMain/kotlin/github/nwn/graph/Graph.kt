@@ -1,15 +1,15 @@
 package github.nwn.graph
 
-
+/**
+ * Represents a State Machine. This class should not be instantiated directly, and instead should be created with the [graph] function.
+ * @see github.nwn.graph.GraphKt.graph
+ */
 class Graph<State, Input> internal constructor(
     internal val nodes: List<GraphNode<State, Input>>,
     private val initialNodeIndex: Int = 0
 ) {
 
     private fun initGraphState(state: State) = GraphState(state, initialNodeIndex, initialNodeIndex)
-
-    private fun invoke(input: Input, state: State): GraphState<State> =
-        invoke(input, initGraphState(state))
 
     private fun invoke(input: Input, state: GraphState<State>): GraphState<State> {
 
@@ -25,6 +25,12 @@ class Graph<State, Input> internal constructor(
         return state
     }
 
+    /**
+     * Processes an [input] with a given [state] against the graph until it reaches a terminal node.
+     * @param input The input to be processed. Generally speaking should be immutable.
+     * @param state The initial state. Generally speaking should be mutable.
+     * @return the [state] parameter after being processed.
+     */
     fun process(input: Input, state: State): State {
         var graphState: GraphState<State> = initGraphState(state)
         while (!nodes[graphState.current].shouldTerminate) {
@@ -32,7 +38,13 @@ class Graph<State, Input> internal constructor(
         }
         return graphState.state
     }
-
+    /**
+     * Processes an [input] with a given [state] against the graph until it reaches a terminal node or an external [condition] is not satisfied.
+     * @param input The input to be processed. Generally speaking should be immutable.
+     * @param state The initial state. Generally speaking should be mutable.
+     * @param condition An external condition. The graph will run until it reaches a terminal node or this parameter returns false against the state.
+     * @return the [state] parameter after being processed.
+     */
     fun processUntil(input: Input, state: State, condition: (State) -> Boolean): State {
         var graphState: GraphState<State> = initGraphState(state)
         while (!nodes[graphState.current].shouldTerminate && condition(graphState.state)) {
@@ -40,11 +52,11 @@ class Graph<State, Input> internal constructor(
         }
         return graphState.state
     }
-
-
 }
 
-
+/**
+ * Creates an instance of [Graph] which can be used for state machine like behaviour.
+ */
 fun <State, Input> graph(op: GraphBuilder<State, Input>.() -> Unit) =
     GraphBuilder<State, Input>().apply(op).build()
 
