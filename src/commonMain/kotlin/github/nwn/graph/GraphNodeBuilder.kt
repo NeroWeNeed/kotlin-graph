@@ -4,7 +4,7 @@ package github.nwn.graph
  * Builder for producing nodes in [Graph]
  */
 @GraphDSL
-class GraphNodeBuilder<State, Input> internal constructor(){
+class GraphNodeBuilder<State, Input> internal constructor(val id: NodeReference){
     private var enter: (GraphNode<State, Input>.(State) -> Unit)? = null
     private var step: (GraphNode<State, Input>.(State, Input) -> NodeReference)? = null
     private var exit: (GraphNode<State, Input>.(State) -> Unit)? = null
@@ -48,5 +48,5 @@ class GraphNodeBuilder<State, Input> internal constructor(){
         initial = true
     }
 
-    internal fun build(id: NodeReference) = GraphNode(id, enter, step!!, exit, shouldTerminate, initial)
+    internal fun build() = GraphNode(id, enter, step!!, exit, shouldTerminate, initial)
 }

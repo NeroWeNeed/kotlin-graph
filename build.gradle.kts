@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "github.nwn"
-version = "1.0.1-SNAPSHOT"
+version = "0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -16,8 +16,9 @@ kotlin {
     *  To find out how to configure the targets, please follow the link:
     *  https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets */
     jvm {
-        withJava()
+withJava()
     }
+
 
     sourceSets {
         val commonMain by getting {
@@ -50,12 +51,13 @@ kotlin {
         val publicationsFromMainHost =
             listOf(jvm()).map { it.name } + "kotlinMultiplatform"
         publications {
-            matching { it.name in publicationsFromMainHost }.all {
-                tasks.withType<AbstractPublishToMaven>().matching { it.publication == this@all }.configureEach { onlyIf { findProperty("isMainHost") == true } }
-            }
             register<MavenPublication>("gpr") {
 
                 from(components["kotlin"])
+            }
+
+            matching { it.name in publicationsFromMainHost }.all {
+                tasks.withType<AbstractPublishToMaven>().matching { it.publication == this@all }.configureEach { onlyIf { findProperty("isMainHost") == true } }
             }
 
         }

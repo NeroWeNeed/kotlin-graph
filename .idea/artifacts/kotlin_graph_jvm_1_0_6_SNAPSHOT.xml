@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="kotlin-graph-jvm-1.0.6-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <root id="archive" name="kotlin-graph-jvm-1.0.6-SNAPSHOT.jar">
+      <element id="module-output" name="kotlin-graph.jvmMain" />
+    </root>
+  </artifact>
+</component>

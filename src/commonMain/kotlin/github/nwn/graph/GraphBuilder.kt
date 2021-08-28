@@ -17,8 +17,8 @@ class GraphBuilder<State, Input> internal constructor() {
      * @return The [id] of the node. If an id was provided, simply returns the provided id.
      */
     fun node(id: NodeReference = nodeReference(), op: GraphNodeBuilder<State, Input>.() -> Unit): NodeReference {
-        val node = GraphNodeBuilder<State, Input>().apply(op)
-        nodes[id] = node.build(id)
+        val node = GraphNodeBuilder<State, Input>(id).apply(op)
+        nodes[id] = node.build()
         return id
     }
 
@@ -26,11 +26,11 @@ class GraphBuilder<State, Input> internal constructor() {
      * Utility method for creating a terminal node with no functionality
      */
     fun terminalNode(id: NodeReference = nodeReference()): NodeReference {
-        val node = GraphNodeBuilder<State, Input>().apply {
+        val node = GraphNodeBuilder<State, Input>(id).apply {
             step { _, _ -> id }
             terminal()
         }
-        nodes[id] = node.build(id)
+        nodes[id] = node.build()
         return id
     }
 
