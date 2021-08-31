@@ -1,9 +1,5 @@
 package github.nwn.graph
 
-import github.nwn.graph.GraphNode
-import github.nwn.graph.GraphNodeBuilder
-import github.nwn.graph.NodeReference
-
 interface TextProcessingState {
     var index: Int
 }
@@ -24,13 +20,13 @@ fun <State : ExceptionableState<T>, T : Exception, Input> GraphNode<State, Input
 }
 
 class CharStepBuilder<State : TextProcessingState, Input : CharSequence> {
-    internal var onEnd: (GraphNode<State, Input>.(state: State, input: Input) -> NodeReference)? = null
-    internal var onStep: (GraphNode<State, Input>.(state: State, input: Input, char: Char) -> NodeReference)? = null
-    fun end(op: GraphNode<State, Input>.(state: State, input: Input) -> NodeReference) {
+    internal var onEnd: (GraphNodeScope<State, Input>.() -> NodeReference)? = null
+    internal var onStep: (GraphNodeScope<State, Input>.(char: Char) -> NodeReference)? = null
+    fun end(op: GraphNodeScope<State, Input>.() -> NodeReference) {
         onEnd = op
     }
 
-    fun step(op: GraphNode<State, Input>.(state: State, input: Input, char: Char) -> NodeReference) {
+    fun step(op: GraphNodeScope<State, Input>.(char: Char) -> NodeReference) {
         onStep = op
     }
 
@@ -41,27 +37,13 @@ fun <State : TextProcessingState, Input : CharSequence> GraphNodeBuilder<State, 
     op: CharStepBuilder<State, Input>.() -> Unit
 ) {
     val (onEnd, onStep) = CharStepBuilder<State, Input>().apply(op).let { it.onEnd!! to it.onStep!! }
-    step { state, input ->
+    step {
         if (state.index >= input.length) {
-            return@step onEnd(state, input)
-        }
-        val char = input[state.index]
-        val result = onStep(state, input, char)
-        state.index++
-        return@step result
-    }
-}
 
-fun <State : TextProcessingState, Input : CharSequence> GraphNodeBuilder<State, Input>.charStep(
-    onEnd: GraphNode<State, Input>.(state: State, input: Input) -> NodeReference,
-    onStep: GraphNode<State, Input>.(state: State, input: Input, char: Char) -> NodeReference
-) {
-    step { state, input ->
-        if (state.index >= input.length) {
-            return@step onEnd(state, input)
+            return@step onEnd()
         }
         val char = input[state.index]
-        val result = onStep(state, input, char)
+        val result = onStep(char)
         state.index++
         return@step result
     }

@@ -27,7 +27,7 @@ class GraphBuilder<State, Input> internal constructor() {
      */
     fun terminalNode(id: NodeReference = nodeReference()): NodeReference {
         val node = GraphNodeBuilder<State, Input>(id).apply {
-            step { _, _ -> id }
+            step { id }
             terminal()
         }
         nodes[id] = node.build()

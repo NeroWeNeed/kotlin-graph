@@ -1,4 +1,4 @@
 package github.nwn.graph
 
 @DslMarker
-internal annotation class GraphDSL()
+internal annotation class GraphDSL

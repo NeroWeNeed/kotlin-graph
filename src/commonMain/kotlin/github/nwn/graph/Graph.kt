@@ -11,18 +11,18 @@ class Graph<State, Input> internal constructor(
     private val initialNode = NodeReference(initialNodeIndex)
     private fun initGraphState(state: State) = GraphState(state, initialNode, initialNode)
 
-    private fun invoke(input: Input, state: GraphState<State>): GraphState<State> {
-
-        if (state.last != state.current) {
-            nodes[state.current.index].enter(state.state,input)
-
+    private fun invoke(input: Input, graphState: GraphState<State>): GraphState<State> {
+        val node = nodes[graphState.current.index]
+        val scope = GraphNodeScope(node.id, node.shouldTerminate, node.initial, graphState.state, input)
+        if (graphState.last != graphState.current) {
+            node.enter?.invoke(scope)
         }
-        state.last = state.current
-        state.current = nodes[state.current.index].step(this, state.state, input).id
-        if (state.last != state.current) {
-            nodes[state.last.index].exit(state.state,input)
+        graphState.last = graphState.current
+        graphState.current = node.step.invoke(scope)
+        if (graphState.last != graphState.current) {
+            node.exit?.invoke(scope)
         }
-        return state
+        return graphState
     }
 
     /**
