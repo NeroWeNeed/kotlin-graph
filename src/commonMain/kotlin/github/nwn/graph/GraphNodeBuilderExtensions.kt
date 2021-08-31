@@ -10,8 +10,7 @@ interface ExceptionableState<T : Exception> {
     fun createException(message: String): T
 }
 
-fun <State : ExceptionableState<T>, T : Exception, Input> GraphNode<State, Input>.error(
-    state: State,
+fun <State : ExceptionableState<T>, T : Exception, Input> GraphNodeScope<State, Input>.error(
     terminalNode: NodeReference,
     message: String
 ): NodeReference {
