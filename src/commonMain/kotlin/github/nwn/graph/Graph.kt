@@ -33,9 +33,9 @@ class Graph<State, Input> internal constructor(
      */
     fun process(input: Input, state: State): State {
         var graphState: GraphState<State> = initGraphState(state)
-        while (!nodes[graphState.current.index].shouldTerminate) {
+        do {
             graphState = invoke(input, graphState)
-        }
+        } while (!nodes[graphState.current.index].shouldTerminate)
         return graphState.state
     }
 
@@ -49,9 +49,9 @@ class Graph<State, Input> internal constructor(
 
     fun processUntil(input: Input, state: State, condition: (State) -> Boolean): State {
         var graphState: GraphState<State> = initGraphState(state)
-        while (!nodes[graphState.current.index].shouldTerminate && condition(graphState.state)) {
+        do {
             graphState = invoke(input, graphState)
-        }
+        } while (!nodes[graphState.current.index].shouldTerminate && condition(graphState.state))
         return graphState.state
     }
 
