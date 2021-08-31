@@ -1,7 +1,9 @@
 package github.nwn.graph
 
-internal data class GraphState<State>(
+
+internal val UNINITIALIZED_NODEREFERENCE = NodeReference(-1)
+data class GraphState<State>(
     val state: State,
-    var current: Int = 0,
-    var last: Int = 0
+    internal var current: NodeReference = UNINITIALIZED_NODEREFERENCE,
+    internal var last: NodeReference = UNINITIALIZED_NODEREFERENCE
 )

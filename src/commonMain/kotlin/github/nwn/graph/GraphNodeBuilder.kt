@@ -5,16 +5,16 @@ package github.nwn.graph
  */
 @GraphDSL
 class GraphNodeBuilder<State, Input> internal constructor(val id: NodeReference){
-    private var enter: (GraphNode<State, Input>.(State) -> Unit)? = null
+    private var enter: (GraphNode<State, Input>.(State, Input) -> Unit)? = null
     private var step: (GraphNode<State, Input>.(State, Input) -> NodeReference)? = null
-    private var exit: (GraphNode<State, Input>.(State) -> Unit)? = null
+    private var exit: (GraphNode<State, Input>.(State, Input) -> Unit)? = null
     private var shouldTerminate: Boolean = false
     private var initial: Boolean = false
 
     /**
      * Defines the behaviour for when the [Graph] first enters this node. This is only called if the previous node is different, and is called before [step]
      */
-    fun enter(op: GraphNode<State, Input>.(state: State) -> Unit) {
+    fun enter(op: GraphNode<State, Input>.(state: State,input: Input) -> Unit) {
         this.enter = op
     }
 
@@ -30,7 +30,7 @@ class GraphNodeBuilder<State, Input> internal constructor(val id: NodeReference)
     /**
      * Defines behaviour for when the [Graph] leaves this node. This is called after [step]
      */
-    fun exit(op: GraphNode<State, Input>.(state: State) -> Unit) {
+    fun exit(op: GraphNode<State, Input>.(state: State,input: Input) -> Unit) {
         this.exit = op
     }
 
