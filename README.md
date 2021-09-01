@@ -25,6 +25,10 @@ I personally have run into a lot of relatively small scale problems that require
  - Complex Logic that you don't want to dedicate an entire project to.
 
 # Example
+A simple text templating graph which writes arguments anywhere there are a pair of unescaped curly braces in the format of `{#}`. Any string input can be run against this with `SampleGraph.process(input, state)` or `SampleGraph.processAndThrow(input, state)`
+
+`SampleGraph.processAndThrow(input, state)` is only available for graphs that process states that implement `ExceptionableState`. Similar functionality can be produced by anyone and this only exists for convenience.
+
 ```kotlin
 import github.nwn.graph.ExceptionableState
 import github.nwn.graph.error
@@ -126,8 +130,10 @@ val SampleGraph = graph<SampleGraphState, String> {
     }
 }
 ```
+
 # TODO
  - Better utility functions
+ - API Improvements
 
 # Future Plans
 ## Graph Visualizer
