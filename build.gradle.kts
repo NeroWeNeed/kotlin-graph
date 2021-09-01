@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "github.nwn"
-version = "0.2.2-SNAPSHOT"
+version = "0.2.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -34,6 +34,11 @@ kotlin {
         }
         val jvmMain by getting {
 
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
+            }
         }
     }
     publishing {
@@ -67,3 +72,6 @@ kotlin {
     }
 }
 
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
