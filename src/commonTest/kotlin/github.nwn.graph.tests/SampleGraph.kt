@@ -25,7 +25,13 @@ data class SampleGraphState(
 val SampleGraph = graph<SampleGraphState, String> {
     val rawNode = nodeReference()
     val argumentNode = nodeReference()
-    val terminalNode = terminalNode()
+    val terminalNode = node {
+        terminal()
+        step {
+            state.output.first().append('L')
+            id
+        }
+    }
     node(rawNode) {
         step {
             if (state.index >= input.length) {
